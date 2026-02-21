@@ -1,0 +1,56 @@
+#!/bin/bash
+
+
+build_release() {
+    if [ -d build ]
+    then
+        rm -rf build
+    fi
+
+    mkdir build
+
+    cd build
+
+    cmake ..
+
+    cmake --build .
+}
+
+
+build_debug() {
+    if [ -d build-debug ]
+    then
+        rm -rf build-debug
+    fi
+
+    mkdir build-debug
+
+    cd build-debug
+
+    cmake -DCMAKE_BUILD_TYPE=Debug ..
+
+    cmake --build .
+}
+
+
+DEBUG=0
+
+if [ $# -eq 1 ]
+then
+    if [ "$1" == "-d" -o "$1" = "--debug" ]
+    then
+        DEBUG=1
+    fi
+fi
+
+
+
+if [ $DEBUG -gt 0 ]
+then
+    build_debug
+else
+    build_release
+fi
+
+
+

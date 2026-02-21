@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rm -rf build build-debug *.o Darwin_obj[dn] Linux_obj[dn]
+
