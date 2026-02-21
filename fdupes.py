@@ -92,10 +92,7 @@ def walk_files(
                 dirnames[:] = []
 
             # Don't descend into excluded directories
-            dirnames[:] = [
-                d for d in dirnames
-                if not _matches_any(d, exclude_patterns)
-            ]
+            dirnames[:] = [d for d in dirnames if not _matches_any(d, exclude_patterns)]
 
             # File depth is same as parent dir (or depth+1 depending on definition)
             # We use: root=depth 0, files in root=depth 0, subdir=depth 1, files in subdir=depth 1
@@ -176,11 +173,7 @@ def find_duplicates(
         size_to_paths[size].append(path)
 
     # Drop sizes with only one file
-    size_groups = [
-        (size, paths)
-        for size, paths in size_to_paths.items()
-        if len(paths) > 1
-    ]
+    size_groups = [(size, paths) for size, paths in size_to_paths.items() if len(paths) > 1]
 
     duplicate_groups: list[list[Path]] = []
     use_parallel = jobs > 1
