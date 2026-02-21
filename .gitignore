@@ -6,3 +6,4 @@ Darwin_objd/
 build/
 build-debug/
 .sconsign.dblite
+.ruff.cache/
