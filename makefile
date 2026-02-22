@@ -15,11 +15,13 @@ else
     CPP := g++
 endif
 
-CPP_FLAGS = -c -Wall -pedantic
-CPP_FLAGS += $(shell $(PKG_CONFIG) --cflags gmp)
+CPP_FLAGS  = -c -Wall -pedantic --std=c++17
+CPP_FLAGS += $(shell $(PKG_CONFIG) --cflags openssl)    \
+             $(shell $(PKG_CONFIG) --cflags gmp)        \
+             $(shell $(PKG_CONFIG) --cflags gmpxx)
 
-LFLAGS = -lcrypto
-LFLAGS    += $(shell $(PKG_CONFIG) --libs gmp)
+LFLAGS     = $(shell $(PKG_CONFIG) --libs openssl)      \
+             $(shell $(PKG_CONFIG) --libs gmpxx)
 
 ifdef DEBUG
     CPP_FLAGS += -g3 -O0 -DDEBUG -D_DEBUG
@@ -51,7 +53,7 @@ DEP_FILES := $(OBJ_FILES:.o=.d)
 
 $(OBJDIR)/fdupes : $(OBJ_FILES) makefile
 	@if [ ! -d $(@D) ] ; then mkdir -p $(@D) ; fi
-	$(CPP) -o $@ $(OBJ_FILES) -lgmpxx -lgmp $(LFLAGS)
+	$(CPP) -o $@ $(OBJ_FILES) $(LFLAGS)
 ifndef DEBUG
 	strip $(OBJDIR)/fdupes
 endif
